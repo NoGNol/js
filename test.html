@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<button id="click" >Click me</button>
+	
+
+	<div>Ваш IP: <div id="ip"></div></div>
+	<div id="holder"></div>
+	<hr>
+	<table border = "solid" width="80%">
+		<tr>
+			<td>
+				<input type="text" id="text" value = "Привет" size="40">
+				<input type="button" id="submit" value = "Добавить задачу">
+			</td>
+			<td>
+				<div>Список дел</div>
+				<div id="tasks"></div>
+			</td>
+		</tr>
+	</table>
+	<div id="done"></div>
+	
+	<div id="holder1"></div>
+	<input type="checkbox">
+	<script type="text/javascript" src="script/script.js"> 	
+	</script>
+	<script type="text/javascript">
+		const toDo = [];
+		const done = [];
+		let counter = 0;
+		const deleteChildren = function (parent){
+			Array.from(parent.childNodes).forEach(elem => {
+                console.log(elem);
+                deleteElement(elem);
+			});
+		}
+		const appendChildren = function(parent, children){
+			children.forEach(elem => {
+				parent.appendChild(elem);
+			});
+		}
+		const getHolder = function(id){
+			const holderId = `holder_${id}`;
+			return document.getElementById(holderId);
+		}
+		const deleteElement = function(element){
+			element.parentElement.removeChild(element);
+			return element;
+		} 
+		const addToDone = function(added, checkbox){
+			document.getElementById('done').appendChild(added);
+			checkbox.parentElement.removeChild(checkbox);
+		}
+		const onChecked = function(evt){
+         	addToDone(deleteElement(getHolder(evt.target.value)), evt.target);
+		}
+		const createListElem = function (toDolist){
+			return toDolist.map(  (model)=> {
+				var newdiv = document.createElement('div');
+				newdiv.innerHTML = model.desc;
+				const checkBoxElem = document.createElement('input');
+				checkBoxElem.type = 'checkbox';
+				checkBoxElem.id = `checkbox_${model.num}`;
+				checkBoxElem.addEventListener('click', onChecked);
+				checkBoxElem.value = model.num;
+				const holder = document.createElement('div');
+				holder.id = `holder_${model.num}`;
+				const hr = document.createElement('hr');
+				holder.appendChild(newdiv);
+				holder.appendChild(checkBoxElem);
+				holder.appendChild(hr);
+				return holder;
+			} );
+		}
+		const render = function(models){
+			const views = createListElem(models);			
+			const list = document.getElementById('tasks');
+			deleteChildren(list);
+			appendChildren(list, views);
+		}
+		const onClick = function (evt){
+			evt.preventDefault();
+			counter += 1;
+			const text = document.getElementById('text');
+            toDo.push({desc:text.value, num:counter})
+            render(toDo);
+		}
+		document.getElementById('submit').addEventListener('click', onClick);
+	</script>
+</body>
+</html>
