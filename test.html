@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
 	<button id="click" >Click me</button>
@@ -16,6 +17,7 @@
 			<td>
 				<input type="text" id="text" value = "Привет" size="40">
 				<input type="button" id="submit" value = "Добавить задачу">
+				<input type="button" id="reset" value="Сброс">
 			</td>
 			<td>
 				<div>Список дел</div>
@@ -23,6 +25,7 @@
 			</td>
 		</tr>
 	</table>
+	<div><h1>Список сделанных дел</h1></div>
 	<div id="done"></div>
 	
 	<div id="holder1"></div>
@@ -90,7 +93,12 @@
             toDo.push({desc:text.value, num:counter})
             render(toDo);
 		}
+		const onClickReset = function(evt){
+			document.getElementById('done').innerHTML ='';
+			document.getElementById('tasks').innerHTML='';
+		}
 		document.getElementById('submit').addEventListener('click', onClick);
+		document.getElementById('reset').addEventListener('click', onClickReset);
 	</script>
 </body>
 </html>
