@@ -20,5 +20,4 @@ const handler = function()
 			newElement.innerHTML = data.ip;
 			document.getElementById('holder').appendChild(newElement);
 		}
-alert('Hello');
 		document.getElementById('click').addEventListener('click', handler2);
